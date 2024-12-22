@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rea Reader</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+      background-color: white;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    input[type="file"] {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    iframe,
+    #pdfViewer {
+      width: 100%;
+      height: 600px;
+      border: none;
+      transition: transform 0.2s;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    .controls button {
+      padding: 10px 20px;
+      margin: 0 5px;
+      font-size: 16px;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .controls button:active {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+
+<body>
+ 
+  <div class="container">
+    <h1>Rea Reader</h1>
+    <h4>Lire des fichiers OpenOffice, LibreOffice et PDF</h4>
+    <input type="file" id="fileInput" accept=".pdf,.odt,.ods,.odp,.docx,.xlsx,.pptx,.txt">
+    <iframe id="fileViewer" style="display: none;"></iframe>
+    <canvas id="pdfViewer" style="display: none;"></canvas>
+    <div class="controls" style="display: none;" id="controls">
+    
+      <button onclick="zoomIn()">+</button>
+    
+    </div>
+  </div>
+<small> <footer>© Kieran Simonnet, Tous droits réservés. </footer> </small>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
+  <script>
+    let currentScale = 1;
+    let fileViewerElement;
+
+    document.getElementById('fileInput').addEventListener('change', function (event) {
+      const file = event.target.files[0];
+      if (!file) {
+        return;
+      }
+
+      const fileUrl = URL.createObjectURL(file);
+      const fileViewer = document.getElementById('fileViewer');
+      const pdfViewer = document.getElementById('pdfViewer');
+      const controls = document.getElementById('controls');
+
+      if (file.type === 'application/pdf') {
+        fileViewer.style.display = 'none';
+        pdfViewer.style.display = 'block';
+        controls.style.display = 'flex';
+        fileViewerElement = pdfViewer;
+        const loadingTask = pdfjsLib.getDocument(fileUrl);
+        loadingTask.promise.then(pdf => {
+          const pageNumber = 1;
+          pdf.getPage(pageNumber).then(page => {
+            currentScale = 1.5;
+            const viewport = page.getViewport({ scale: currentScale });
+
+            const canvas = document.getElementById('pdfViewer');
+            const context = canvas.getContext('2d');
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+
+            const renderContext = {
+              canvasContext: context,
+              viewport: viewport
+            };
+            page.render(renderContext);
+          });
+        });
+      } else {
+        pdfViewer.style.display = 'none';
+        fileViewer.style.display = 'block';
+        controls.style.display = 'flex';
+        fileViewerElement = fileViewer;
+        fileViewer.src = `https://view.officeapps.live.com/op/embed.aspx?src=${fileUrl}`;
+      }
+    });
+
+   function zoomIn() {
+      currentScale += 0.1;
+      fileViewerElement.style.transform = `scale(${currentScale})`;
+    }
+
+    
+    
+  </script>
+</body>
+
+</html>
