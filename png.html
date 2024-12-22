@@ -1,0 +1,81 @@
+ <!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lecteur d'Images Locales</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+      background-color: white;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    label {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    img {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Lecteur d'Images Locales</h1>
+    <input type="file" id="fileInput" accept="image/*" multiple>
+    <label for="fileInput">Choisir des images</label>
+    <div id="imageContainer"></div>
+  </div>
+<small> <footer>© Kieran Simonnet, Tous droits réservés. </footer> </small>
+  <script>
+    document.getElementById('fileInput').addEventListener('change', function (event) {
+      const files = event.target.files;
+      const imageContainer = document.getElementById('imageContainer');
+      imageContainer.innerHTML = ''; // Clear previous content
+
+      Array.from(files).forEach(file => {
+        if (file.type.startsWith('image/')) { // Check if file is an image file
+          const imgElement = document.createElement('img');
+          imgElement.src = URL.createObjectURL(file);
+          imageContainer.appendChild(imgElement);
+
+          // Revoke the object URL to free up memory
+          imgElement.addEventListener('load', function () {
+            URL.revokeObjectURL(imgElement.src);
+          });
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
