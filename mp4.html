@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lecteur Vidéo Local</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+      background-color: white;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    label {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    video {
+      width: 100%;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Lecteur Vidéo Local</h1>
+    <input type="file" id="fileInput" accept="video/mp4" multiple>
+    <label for="fileInput">Choisir des fichiers vidéo</label>
+    <div id="videoContainer"></div>
+  </div>
+<small> <footer>© Kieran Simonnet, Tous droits réservés. </footer> </small>
+  <script>
+    document.getElementById('fileInput').addEventListener('change', function (event) {
+      const files = event.target.files;
+      const videoContainer = document.getElementById('videoContainer');
+      videoContainer.innerHTML = ''; // Clear previous content
+
+      Array.from(files).forEach(file => {
+        if (file.type === 'video/mp4') { // Check if file is an MP4 video
+          const videoElement = document.createElement('video');
+          videoElement.controls = true;
+          videoElement.src = URL.createObjectURL(file);
+          videoContainer.appendChild(videoElement);
+
+          // Revoke the object URL to free up memory
+          videoElement.addEventListener('ended', function () {
+            URL.revokeObjectURL(videoElement.src);
+          });
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
