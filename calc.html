@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculatrice</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 300px;
+      margin: auto;
+      padding: 20px;
+      background-color: white;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    .calculator {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .calculator button {
+      padding: 20px;
+      font-size: 18px;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .calculator button:active {
+      background-color: #0056b3;
+    }
+
+    .display {
+      grid-column: span 4;
+      padding: 20px;
+      font-size: 24px;
+      border: 1px solid #ccc;
+      text-align: right;
+      background-color: #eee;
+      min-height: 50px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Calculatrice</h1>
+    <div class="calculator">
+      <div class="display" id="display"></div>
+      <button onclick="appendNumber('1')">1</button>
+      <button onclick="appendNumber('2')">2</button>
+      <button onclick="appendNumber('3')">3</button>
+      <button onclick="chooseOperation('+')">+</button>
+      <button onclick="appendNumber('4')">4</button>
+      <button onclick="appendNumber('5')">5</button>
+      <button onclick="appendNumber('6')">6</button>
+      <button onclick="chooseOperation('-')">-</button>
+      <button onclick="appendNumber('7')">7</button>
+      <button onclick="appendNumber('8')">8</button>
+      <button onclick="appendNumber('9')">9</button>
+      <button onclick="chooseOperation('*')">x</button>
+      <button onclick="appendNumber('0')">0</button>
+      <button onclick="appendNumber(',')">.</button>
+      <button onclick="clearDisplay()">C</button>
+      <button onclick="chooseOperation('/')">/</button>
+      <button onclick="calculate()" style="grid-column: span 4; background-color: #28a745;">=</button>
+    </div>
+  </div>
+
+  <small> <footer>© Kieran Simonnet, Tous droits réservés. </footer> </small>
+
+  <script>
+    let display = document.getElementById('display');
+    let currentOperand = '';
+    let previousOperand = '';
+    let operation = undefined;
+
+    function appendNumber(number) {
+      if (number === '.' && currentOperand.includes('.')) return;
+      currentOperand = currentOperand.toString() + number.toString();
+      updateDisplay();
+    }
+
+    function updateDisplay() {
+      display.innerText = previousOperand + ' ' + (operation || '') + ' ' + currentOperand;
+    }
+
+    function clearDisplay() {
+      currentOperand = '';
+      previousOperand = '';
+      operation = undefined;
+      updateDisplay();
+    }
+
+    function chooseOperation(op) {
+      if (currentOperand === '') return;
+      if (previousOperand !== '') {
+        calculate();
+      }
+      operation = op;
+      previousOperand = currentOperand;
+      currentOperand = '';
+      updateDisplay();
+    }
+
+    function calculate() {
+      let computation;
+      const prev = parseFloat(previousOperand);
+      const current = parseFloat(currentOperand);
+      if (isNaN(prev) || isNaN(current)) return;
+      switch (operation) {
+        case '+':
+          computation = prev + current;
+          break;
+        case '-':
+          computation = prev - current;
+          break;
+        case '*':
+          computation = prev * current;
+          break;
+        case '/':
+          computation = prev / current;
+          break;
+        default:
+          return;
+      }
+      currentOperand = computation;
+      operation = undefined;
+      previousOperand = '';
+      updateDisplay();
+    }
+  </script>
+</body>
+
+</html>
+
