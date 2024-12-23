@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dino Runner</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-color: #f0f0f0;
+    }
+
+    canvas {
+      display: block;
+      margin: 50px auto;
+      background-color: #fff;
+      border: 2px solid #ccc;
+    }
+
+    #score {
+      position: absolute;
+      top: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 24px;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="gameCanvas" width="600" height="200"></canvas>
+  <div id="score">Score: 0</div>
+
+  <script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+    const scoreElement = document.getElementById("score");
+
+    // Paramètres du jeu
+    let dino = {
+      x: 50,
+      y: 150,
+      width: 40,
+      height: 50,
+      jumpHeight: 15,
+      gravity: 0.5,
+      isJumping: false,
+      velocityY: 0,
+    };
+
+    let obstacles = [];
+    let score = 0;
+    let gameOver = false;
+    let gameSpeed = 5;
+
+    // Dessiner le dino
+    function drawDino() {
+      ctx.fillStyle = "#008000";
+      ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
+      ctx.fillStyle = "#000";
+      ctx.fillRect(dino.x + 10, dino.y + 10, 20, 10); // Bec
+      ctx.fillRect(dino.x + 10, dino.y + 25, 20, 10); // Yeux
+    }
+
+    // Dessiner les obstacles
+    function drawObstacles() {
+      obstacles.forEach(obstacle => {
+        ctx.fillStyle = "#808080";
+        ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+      });
+    }
+
+    // Générer un nouvel obstacle
+    function generateObstacle() {
+      obstacles.push({
+        x: canvas.width,
+        y: 150 - Math.random() * 50, // Hauteur aléatoire
+        width: 40,
+        height: 60,
+        speed: gameSpeed,
+      });
+    }
+
+    // Mettre à jour la position des obstacles
+    function updateObstacles() {
+      obstacles.forEach((obstacle, index) => {
+        obstacle.x -= obstacle.speed;
+
+        // Supprimer les obstacles hors de l'écran
+        if (obstacle.x + obstacle.width < 0) {
+          obstacles.splice(index, 1);
+        }
+      });
+    }
+
+    // Vérifier les collisions
+    function checkCollision() {
+      obstacles.forEach(obstacle => {
+        if (
+          dino.x < obstacle.x + obstacle.width &&
+          dino.x + dino.width > obstacle.x &&
+          dino.y < obstacle.y + obstacle.height &&
+          dino.y + dino.height > obstacle.y
+        ) {
+          gameOver = true;
+        }
+      });
+    }
+
+    // Mettre à jour la position du dino
+    function updateDino() {
+      if (dino.isJumping) {
+        dino.velocityY -= dino.gravity;
+        dino.y -= dino.velocityY;
+
+        // Retour au sol après le saut
+        if (dino.y + dino.height >= 150) {
+          dino.y = 150 - dino.height;
+          dino.isJumping = false;
+          dino.velocityY = 0;
+        }
+      }
+    }
+
+    // Gestion du saut du dino
+    document.addEventListener("keydown", function(event) {
+      if (event.key === "ArrowUp" && !dino.isJumping && !gameOver) {
+        dino.isJumping = true;
