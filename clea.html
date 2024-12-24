@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clea Count</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Compteur de clics par minute</h1>
+    <p>Cliquez sur le bouton ci-dessous pendant 5 secondes!</p>
+    <button id="clickButton">Cliquez ici!</button>
+    <h2 id="result"></h2>
+
+    <script>
+        let clickCount = 0;
+        let isCounting = false;
+
+        const button = document.getElementById('clickButton');
+        const result = document.getElementById('result');
+
+        button.addEventListener('click', () => {
+            if (!isCounting) {
+                startCounting();
+            }
+            clickCount++;
+        });
+
+        function startCounting() {
+            isCounting = true;
+            clickCount = 0;
+            result.textContent = "";
+
+            setTimeout(() => {
+                isCounting = false;
+                const cpm = clickCount * 12; // Convertit les clics en CPM (clicks per minute)
+                result.textContent = `Vous avez cliqué ${clickCount} fois. CPM: ${cpm}`;
+            }, 5000); // Compte pendant 5 secondes
+        }
+    </script>
+</body>
+</html>
