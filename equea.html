@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play Equea !/title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        #watermelon {
+            position: absolute;
+            width: 100px;
+            cursor: pointer;
+        }
+        #score {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="score">Score: 0</div>
+    <img id="watermelon" src="https://img.icons8.com/color/96/000000/watermelon.png" alt="Pastèque" />
+
+    <script>
+        let score = 0;
+
+        function moveWatermelon() {
+            const watermelon = document.getElementById('watermelon');
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 100);
+            watermelon.style.left = x + 'px';
+            watermelon.style.top = y + 'px';
+        }
+
+        function updateScore() {
+            score++;
+            document.getElementById('score').innerText = "Score: " + score;
+            moveWatermelon();
+        }
+
+        document.getElementById('watermelon').addEventListener('click', updateScore);
+
+        // Déplace la pastèque au début
+        moveWatermelon();
+    </script>
+<small> <footer>© Kieran Simonnet, Tous droits réservés. </footer> </small>
+</body>
+</html>
