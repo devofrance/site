@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compteur de Temps</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .timer {
+            text-align: center;
+            font-size: 2em;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="timer">
+        <div id="time">00:00:00:00</div>
+    </div>
+
+    <script>
+        let startTime = Date.now();
+        
+        function updateTimer() {
+            let elapsedTime = Date.now() - startTime; // Temps écoulé en millisecondes
+            
+            // Calculer les différentes unités de temps
+            let seconds = Math.floor((elapsedTime / 1000) % 60);
+            let minutes = Math.floor((elapsedTime / (1000 * 60)) % 60);
+            let hours = Math.floor((elapsedTime / (1000 * 60 * 60)) % 24);
+            let days = Math.floor(elapsedTime / (1000 * 60 * 60 * 24));
+            
+            // Formater le temps pour l'affichage
+            let formattedTime = 
+                String(days).padStart(2, '0') + ':' + 
+                String(hours).padStart(2, '0') + ':' + 
+                String(minutes).padStart(2, '0') + ':' + 
+                String(seconds).padStart(2, '0');
+
+            document.getElementById('time').innerText = formattedTime;
+        }
+
+        // Mettre à jour le timer toutes les secondes
+        setInterval(updateTimer, 1000);
+    </script>
+</body>
+</html>
