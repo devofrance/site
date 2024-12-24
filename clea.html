@@ -5,51 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clea Count</title>
     <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            font-family: Arial, sans-serif;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
+        #resultat {
+            display: none; /* Masquer le résultat par défaut */
+            font-size: 24px;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>Compteur de clics par minute</h1>
-    <p>Cliquez sur le bouton ci-dessous pendant 5 secondes!</p>
-    <button id="clickButton">Cliquez ici!</button>
-    <h2 id="result"></h2>
+
+    <div id="instructions">
+        <p>Cliquez sur le bouton ci-dessous :</p>
+        <button id="monBouton">Cliquez ici</button>
+    </div>
+
+    <div id="resultat">Voici le résultat !</div>
 
     <script>
-        let clickCount = 0;
-        let isCounting = false;
-
-        const button = document.getElementById('clickButton');
-        const result = document.getElementById('result');
-
-        button.addEventListener('click', () => {
-            if (!isCounting) {
-                startCounting();
-            }
-            clickCount++;
+        document.getElementById('monBouton').addEventListener('click', function() {
+            // Afficher le résultat
+            document.getElementById('resultat').style.display = 'block';
+            
+            // Cacher les instructions et le bouton après 5 secondes
+            setTimeout(function() {
+                document.getElementById('instructions').style.display = 'none';
+                document.getElementById('monBouton').style.display = 'none';
+            }, 5000);
         });
-
-        function startCounting() {
-            isCounting = true;
-            clickCount = 0;
-            result.textContent = "";
-
-            setTimeout(() => {
-                isCounting = false;
-                const cpm = clickCount * 12; // Convertit les clics en CPM (clicks per minute)
-                result.textContent = `Vous avez cliqué ${clickCount} fois. CPM: ${cpm}`;
-            }, 5000); // Compte pendant 5 secondes
-        }
     </script>
+
 </body>
 </html>
+
