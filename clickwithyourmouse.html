@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ClickWithYourMouse</title>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <script>
+    // Configuration Firebase (remplacez par vos propres valeurs)
+    const firebaseConfig = {
+      apiKey: "AIzaSyA-tZc5sb68B9eD_5w7iVkD6ResY6evj4s",
+      authDomain: "clickwithyourmouse.firebaseapp.com",
+      projectId: "clickwithyourmouse",
+      storageBucket: "clickwithyourmouse.firebasestorage.app",
+      messagingSenderId: "588239650435",
+      appId: "588239650435:web:86ddf72a541d09d382e5b6"
+      measurementId: "G-BWDDB55TKE"
+    };
+
+    // Initialiser Firebase
+   
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // Fonction pour afficher le message
+    function afficherMessage() {
+      db.collection('messages').doc('message1').get()
+        .then(doc => {
+          if (doc.exists) {
+            const message = doc.data().text;
+            document.getElementById('message').textContent = message;
+          } else {
+            console.log("Aucun document trouvé");
+          }
+        })
+        .catch(error => {
+          console.error("Erreur lors de la récupération du document:", error);
+        });
+    }
+
+    // Appeler la fonction au chargement de la page
+    window.onload = afficherMessage;
+  </script>
+</head>
+<body>
+  <h1>Message de Firebase</h1>
+  <p id="message"></p>
+</body>
+</html>
