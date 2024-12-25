@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Calculateur de Temps Écoulé</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    input[type="date"] {
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Calculateur de Temps Écoulé</h1>
+
+  <input type="date" id="dateInput">
+  <button onclick="calculateTime()">Calculer</button>
+
+  <div id="result"></div>
+
+  <script>
+    function calculateTime() {
+      const dateInput = document.getElementById("dateInput");
+      const result = document.getElementById("result");
+
+      const inputDate = new Date(dateInput.value);
+      const now = new Date();
+
+      // Calcul du temps écoulé en millisecondes
+      const timeDiff = now.getTime() - inputDate.getTime();
+
+      // Conversion en jours, mois, heures
+      const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+      const months = Math.floor(days / 30); // Approximation pour les mois
+      const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+      // Affichage du résultat
+      result.innerHTML = `Il y a ${days} jours (${months} mois, ${hours} heures)`;
+    }
+  </script>
+
+</body>
+</html>
