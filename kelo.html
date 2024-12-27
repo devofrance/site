@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Kelo Design</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Kelo Design</h1>
+  <form id="logo-form">
+    <label for="text">Texte du logo :</label>
+    <input type="text" id="text" name="text">
+    <br>
+    <label for="color">Couleur du logo :</label>
+    <input type="color" id="color" name="color">
+    <br>
+    <label for="size">Taille du logo :</label>
+    <input type="number" id="size" name="size" value="50">
+    <br>
+    <button type="submit">Créer le logo</button>
+  </form>
+  <div id="logo-container"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+<style>
+body {
+  font-family: Arial, sans-serif;
+}
+
+#logo-container {
+  width: 200px;
+  height: 200px;
+  border: 1px solid black;
+  margin-top: 20px;
+}
+  </style>
+
+  <script>const logoForm = document.getElementById('logo-form');
+const logoContainer = document.getElementById('logo-container');
+
+logoForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const text = document.getElementById('text').value;
+  const color = document.getElementById('color').value;
+  const size = document.getElementById('size').value;
+
+  const logo = document.createElement('div');
+  logo.style.width = size + 'px';
+  logo.style.height = size + 'px';
+  logo.style.background = color;
+  logo.style.textAlign = 'center';
+  logo.style.fontSize = size / 2 + 'px';
+  logo.textContent = text;
+
+  logoContainer.appendChild(logo);
+});</script>
