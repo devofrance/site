@@ -55,7 +55,7 @@
     <button id="sendButton">Envoyer</button>
 </div>
 
-<script>
+    <script>
     const messagesContainer = document.getElementById('messages');
     const messageInput = document.getElementById('messageInput');
     const sendButton = document.getElementById('sendButton');
@@ -99,6 +99,29 @@
     loadMessages();
     // Vérifier et charger les messages toutes les 30 secondes
     setInterval(loadMessages, 30 * 1000);
+<script>
+    // Fonction pour générer un numéro aléatoire entre 1000 et 10000
+    function getRandomGuestId() {
+        return Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000;
+    }
+
+    // Afficher l'ID de guest
+    const guestId = getRandomGuestId();
+    document.getElementById('chat-header').innerText = `Guest #${guestId}`;
+
+    // Fonction pour récupérer l'IP de l'utilisateur (exemple avec une API publique)
+    async function getUserIP() {
+        try {
+            const response = await fetch('https://api.ipify.org?format=json');
+            const data = await response.json();
+            console.log('User IP:', data.ip); // Vous pouvez utiliser l'IP ici si nécessaire
+        } catch (error) {
+            console.error('Erreur lors de la récupération de l\'IP:', error);
+        }
+    }
+
+    // Appeler la fonction pour récupérer l'IP
+    getUserIP();
 </script>
 
 </body>
