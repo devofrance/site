@@ -97,18 +97,9 @@
 
     // Charger les messages au chargement de la page
     loadMessages();
-    // Vérifier et charger les messages toutes les 30 secondes
-    setInterval(loadMessages, 30 * 1000);
+  
 
-    // Fonction pour générer un numéro aléatoire entre 1000 et 10000
-    function getRandomGuestId() {
-        return Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000;
-    }
-
-    // Afficher l'ID de guest
-    const guestId = getRandomGuestId();
-    document.getElementById('chat-header').innerText = `Guest #${guestId}`;
-
+ 
    
 </script>
 
