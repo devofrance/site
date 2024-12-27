@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiftin Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        #chat {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
+        }
+        #messages {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        #messageInput {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        #sendButton {
+            padding: 10px 15px;
+            border: none;
+            background: #28a745;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #sendButton:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<div id="chat">
+    <h2>Fiftin Chat</h2>
+    <div id="messages"></div>
+    <input type="text" id="messageInput" placeholder="Tapez votre message ici..." />
+    <button id="sendButton">Envoyer</button>
+</div>
+
+<script>
+    const messagesContainer = document.getElementById('messages');
+    const messageInput = document.getElementById('messageInput');
+    const sendButton = document.getElementById('sendButton');
+
+    // Charger les messages du localStorage
+    function loadMessages() {
+        const messages = JSON.parse(localStorage.getItem('messages')) || [];
+        const currentTime = Date.now();
+
+        messages.forEach((msg, index) => {
+            if (currentTime - msg.timestamp < 15 * 60 * 1000) { // 15 minutes
+                appendMessage(msg.text);
+            } else {
+                messages.splice(index, 1); // Supprimer les anciens messages
+            }
+        });
+
+        localStorage.setItem('messages', JSON.stringify(messages)); // Mettre à jour le stockage local
+    }
+
+    // Ajouter un message au conteneur
+    function appendMessage(text) {
+        const messageElement = document.createElement('div');
+        messageElement.textContent = text;
+        messagesContainer.appendChild(messageElement);
+    }
+
+    // Envoyer un message
+    sendButton.addEventListener('click', () => {
+        const messageText = messageInput.value.trim();
+        if (messageText) {
+            appendMessage(messageText);
+            const messages = JSON.parse(localStorage.getItem('messages')) || [];
+            messages.push({ text: messageText, timestamp: Date.now() });
+            localStorage.setItem('messages', JSON.stringify(messages));
+            messageInput.value = ''; // Réinitialiser le champ d'entrée
+        }
+    });
+
+    // Charger les messages au chargement de la page
+    loadMessages();
+    // Vérifier et charger les messages toutes les 30 secondes
+    setInterval(loadMessages, 30 * 1000);
+</script>
+
+</body>
+</html>
