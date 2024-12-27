@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Koly Agenda</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>Koly Agenda</h1>
+<form id="event-form">
+<label for="date">Date :</label>
+<input type="date" id="date" name="date">
+<br>
+<label for="heure">Heure :</label>
+<input type="time" id="heure" name="heure">
+<br>
+<label for="description">Description :</label>
+<input type="text" id="description" name="description">
+<br>
+<button type="submit">Ajouter l'événement</button>
+</form>
+<ul id="events-list"></ul>
+
+<script src="script.js"></script>
+</body>
+</html>
+
+<style>body {
+font-family: Arial, sans-serif;
+}
+
+#events-list {
+list-style: none;
+padding: 0;
+margin: 0;
+}
+
+#events-list li {
+margin-bottom: 10px;
+}
+
+#events-list li span {
+display: inline-block;
+width: 100px;
+}</style>
+
+<script>const eventForm = document.getElementById('event-form');
+const eventsList = document.getElementById('events-list');
+
+eventForm.addEventListener('submit', (e) => {
+e.preventDefault();
+const date = document.getElementById('date').value;
+const heure = document.getElementById('heure').value;
+const description = document.getElementById('description').value;
+
+const event = {
+date,
+heure,
+description
+};
+
+localStorage.setItem('events', JSON.stringify([event]));
+
+const events = JSON.parse(localStorage.getItem('events'));
+eventsList.innerHTML = '';
+
+events.forEach((event) => {
+const li = document.createElement('li');
+const dateSpan = document.createElement('span');
+const heureSpan = document.createElement('span');
+const descriptionSpan = document.createElement('span');
+
+dateSpan.textContent = event.date;
+heureSpan.textContent = event.heure;
+descriptionSpan.textContent = event.description;
+
+li.appendChild(dateSpan);
+li.appendChild(heureSpan);
+li.appendChild(descriptionSpan);
+
+eventsList.appendChild(li);
+});
+});</script>
