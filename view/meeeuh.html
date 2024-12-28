@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Vache disant "meuh"</title>
+<style>
+.vache {
+position: relative;
+width: 200px;
+height: 200px;
+background-color: #FFC080;
+border-radius: 50%;
+}
+
+.meuh {
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+font-size: 36px;
+font-weight: bold;
+animation: meuh 2s infinite;
+}
+
+@keyframes meuh {
+0% {
+opacity: 0;
+}
+25% {
+opacity: 1;
+}
+50% {
+opacity: 1;
+}
+75% {
+opacity: 1;
+}
+100% {
+opacity: 0;
+}
+}
+</style>
+</head>
+<body>
+<div class="vache">
+<div class="meuh">Meeeuh</div>
+</div>
+
+<script>
+// Créer une animation en utilisant JavaScript
+const meuh = document.querySelector('.meuh');
+meuh.style.animationName = 'meuh';
+</script>
+</body>
+</html>
