@@ -1,66 +1,48 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-  <title>Timea Calculator</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-    }
-
-    input[type="date"] {
-      padding: 10px;
-      margin-bottom: 20px;
-    }
-
-    button {
-      padding: 10px 20px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-
-    #result {
-      margin-top: 20px;
-      font-size: 20px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Rebrandé</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            color: #666;
+        }
+        .button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
 
-  <h1>Timea Calculator</h1>
-
-  <input type="date" id="dateInput">
-  <button onclick="calculateTime()">Calculer</button>
-
-  <div id="result"></div>
-
-  <script>
-    function calculateTime() {
-      const dateInput = document.getElementById("dateInput");
-      const result = document.getElementById("result");
-
-      const inputDate = new Date(dateInput.value);
-      const now = new Date();
-
-      // Calcul du temps écoulé en millisecondes
-      const timeDiff = now.getTime() - inputDate.getTime();
-
-      // Conversion en jours, mois, heures
-      const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-      const months = Math.floor(days / 30); // Approximation pour les mois
-      const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-
-      // Affichage du résultat
-      result.innerHTML = `Il y a ${days} jours (${months} mois, ${hours} heures)`;
-    }
-  </script>
+    <h1>Ce site appartient désormais à Azul Inc.</h1>
+    <p>Pour visiter la nouvelle page, cliquez sur le bouton ci-dessous :</p>
+    <a href="https://azulfrance.vercel.app/outils/time-calc/" class="button">Accéder à la nouvelle page</a>
 
 </body>
 </html>
